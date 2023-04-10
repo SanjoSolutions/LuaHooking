@@ -1,9 +1,9 @@
 Hooking = {}
 
-function Hooking.hookSettingOnTable(table, fieldName, predicate)
+function Hooking.hookSettingOnTable(table, fieldName, createHookFunction)
   local value = table[fieldName]
   if value then
-    value = predicate(value)
+    value = createHookFunction(value)
   end
   table[fieldName] = nil
 
@@ -16,7 +16,7 @@ function Hooking.hookSettingOnTable(table, fieldName, predicate)
     end
 
     if key == fieldName then
-      value = predicate(value)
+      value = createHookFunction(value)
       rawset(table, fieldName, nil)
     elseif not originalNewindex then
       rawset(table, key, value)
